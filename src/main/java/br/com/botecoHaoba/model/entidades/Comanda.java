@@ -47,12 +47,22 @@ public class Comanda {
 
    public void addItem( ItemComanda item ) {
 
-      itensComanda.add( item );
+	   valorTotal = getValorTotal() + (item.getItem().getPreco() * item.getQuantidade());
+	   itensComanda.add( item );
+	   //System.out.println("Valor: " + valorTotal); 
+	   this.setValorTotal(valorTotal);
+	   
    }
 
    public int getQuantidadeItensConsumidos() {
-
-      return itensComanda.size();
+	   
+	   int i;
+	   int cont = 0;
+	   int n = itensComanda.size();
+	   	  for (i = 0; i < n; i++) {
+	   		  cont = cont + itensComanda.get(i).getQuantidade();
+	   	  }
+	   	  return cont;
    }
 
    public List<ItemComanda> getItensComanda() {
@@ -73,8 +83,8 @@ public class Comanda {
 
 
    public double getValorTotal() {
-
-      return valorTotal;
+	   
+	   return valorTotal;
    }
 
    public void setValorComissao( double valorComissao ) {

@@ -183,12 +183,13 @@ public class FrmBoteco extends JFrame {
             ItemComanda itemComanda = dialog.itemComanda;
 
             comanda.addItem( itemComanda );
-
             facade.calculaValorTotal( comanda );
             facade.calculaValorComissao( comanda );
-
             tableModel.fireTableDataChanged();
+            
+            //System.out.println("Valor: " + comanda.getValorTotal()); 
 
+            
             atualizaTitulo();
          }
          catch ( Exception ex ) {
