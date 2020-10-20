@@ -18,11 +18,7 @@ import br.com.botecoHaoba.model.facade.BotecoFacade;
 
 public class FrmBoteco extends JFrame {
 
-
    private final BotecoFacade     facade                = new BotecoFacade();
-
-
-
    private final MesasColumnModel columnModel           = new MesasColumnModel();
    private final MesasTableModel  tableModel            = new MesasTableModel( facade, columnModel );
    private final JTable           gridMesas             = new JTable( tableModel, columnModel, null );
@@ -33,6 +29,8 @@ public class FrmBoteco extends JFrame {
    private final JButton          botaoAdicionarComanda = new JButton( "Adicionar comanda" );
    private final JButton          botaoRemoverComanda   = new JButton( "Remover comanda" );
    private final JButton          botaoAdicionarItem    = new JButton( "Adicionar item" );
+   private final JButton          botaoValorPorPessoa    = new JButton( "Valor por pessoa" );
+   private final JButton          botaoMaisConsumido    = new JButton( "Mais consumido" );
 
    public FrmBoteco() {
 
@@ -58,6 +56,8 @@ public class FrmBoteco extends JFrame {
       add( botaoAdicionarComanda );
       add( botaoRemoverComanda );
       add( botaoAdicionarItem );
+      add( botaoValorPorPessoa );
+      add( botaoMaisConsumido );
 
       atualizaTitulo();
    }
@@ -81,6 +81,14 @@ public class FrmBoteco extends JFrame {
       botaoAdicionarItem.setSize( 140, 30 );
       botaoAdicionarItem.setLocation( 630, 520 );
       botaoAdicionarItem.addActionListener( new ActionAdicionarItem() );
+      
+      botaoValorPorPessoa.setSize( 140, 30 );
+      botaoValorPorPessoa.setLocation( 280, 520);
+      botaoValorPorPessoa.addActionListener( new ActionValorPorPessoa() );
+      
+      botaoMaisConsumido.setSize( 140, 30 );
+      botaoMaisConsumido.setLocation( 420, 520);
+      botaoMaisConsumido.addActionListener( new ActionMaisConsumido() );
    }
 
 
@@ -199,5 +207,53 @@ public class FrmBoteco extends JFrame {
       }
 
    }
+   
+   private class ActionValorPorPessoa implements ActionListener {
+
+	      @Override
+	      public void actionPerformed( ActionEvent e ) {
+
+	         try {
+	            	
+	        	Comanda comanda = facade.getComandas().get( gridMesas.getSelectedRow() );
+	            DlgValorPorPessoa dialog = new DlgValorPorPessoa( comanda );	            
+	            dialog.setVisible( true );	            
+
+	            if ( !dialog.pressionouOk() ) {
+	               return;
+	            }
+	            //System.out.println("Valor: " + comanda.getValorTotal());	            
+	         }
+	         catch ( Exception ex ) {
+	             JOptionPane.showMessageDialog(null,"Favor selecione uma comanda! ");
+	         }
+
+	      }
+
+	   }
+   
+   private class ActionMaisConsumido implements ActionListener {
+
+	   @Override
+	      public void actionPerformed( ActionEvent e ) {
+
+	         try {
+	            
+	            DlgMaisConsumido dialog = new DlgMaisConsumido( facade.getComandas());	            
+	            dialog.setVisible( true );	            
+
+	            if ( !dialog.pressionouOk() ) {
+	               return;
+	            }
+	            //System.out.println("Valor: " + comanda.getValorTotal());	            
+	         }
+	         catch ( Exception ex ) {
+	        	 System.out.println(ex.getMessage());
+	             JOptionPane.showMessageDialog(null,"Favor selecione ou insira uma comanda antes de tentar inserir um item ! ");
+	         }
+
+	      }
+
+	   }
 
 }
